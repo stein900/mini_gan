@@ -1,0 +1,26 @@
+# Datasets (downloaded by torchvision on first run)
+data/
+
+# Training runs: full checkpoints (G + D + optimisers), per-epoch frames, logs
+runs/
+*.ckpt
+checkpoint.pt
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
