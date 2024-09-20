@@ -89,3 +89,45 @@ class Generator(nn.Module):
         return self.net(z[:, :, None, None])
 
 
+class Discriminator(nn.Module):
+    """Map a 1x28x28 image (and an optional class label) to a single real/fake logit.
+
+    Spatial path: 28 -> 14 -> 7 -> 4 -> 1 with strided convolutions, LeakyReLU(0.2) and
+    BatchNorm on every hidden layer except the first (DCGAN guidelines). No sigmoid:
+    the logit feeds ``BCEWithLogitsLoss`` for numerical stability.
+    """
+
+    def __init__(self, config: ModelConfig = ModelConfig()) -> None:
+        super().__init__()
+        self.config = config
+        w = config.d_width
+        in_channels = 1
+        self.label_map: nn.Embedding | None = None
+        if config.conditional:
+            self.label_map = nn.Embedding(config.n_classes, IMAGE_SIZE * IMAGE_SIZE)
+            in_channels += 1
+        self.net = nn.Sequential(
+            nn.Conv2d(in_channels, w, kernel_size=4, stride=2, padding=1),  # 14x14
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Conv2d(w, w * 2, kernel_size=4, stride=2, padding=1, bias=False),  # 7x7
+            nn.BatchNorm2d(w * 2),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Conv2d(w * 2, w * 4, kernel_size=3, stride=2, padding=1, bias=False),  # 4x4
+            nn.BatchNorm2d(w * 4),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Conv2d(w * 4, 1, kernel_size=4, stride=1, padding=0),  # 1x1 logit
+        )
+        self.apply(init_weights)
+
+    def forward(self, images: torch.Tensor, labels: torch.Tensor | None = None) -> torch.Tensor:
+        if self.label_map is not None:
+            if labels is None:
+                raise ValueError("A conditional Discriminator requires class labels.")
+            label_plane = self.label_map(labels).view(-1, 1, IMAGE_SIZE, IMAGE_SIZE)
+            images = torch.cat([images, label_plane], dim=1)
+        return self.net(images).view(-1)
+
+
+def count_parameters(module: nn.Module) -> int:
+    """Number of trainable parameters."""
+    return sum(p.numel() for p in module.parameters() if p.requires_grad)

@@ -1,3 +1,6 @@
-"""Mini-GAN: a compact DCGAN on MNIST."""
+"""Mini-GAN: a compact DCGAN / conditional GAN on MNIST with classifier-based evaluation."""
 
-__version__ = "0.1.0"
+from minigan.models import Discriminator, Generator, ModelConfig
+
+__all__ = ["Discriminator", "Generator", "ModelConfig"]
+__version__ = "0.2.0"
