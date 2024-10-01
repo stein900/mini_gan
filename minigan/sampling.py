@@ -51,3 +51,26 @@ def generate(
     return decode(generator, latent_noise(n, generator.latent_dim, seed), labels, batch_size)
 
 
+def slerp(z0: torch.Tensor, z1: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
+    """Spherical linear interpolation between latent vectors ``z0`` and ``z1`` (shape ``(D,)``).
+
+    Gaussian latents concentrate near a hypersphere, so slerp keeps intermediate points at a
+    typical norm, unlike linear interpolation which passes through low-norm regions.
+    Returns a tensor of shape ``(len(t), D)``.
+    """
+    cos = torch.dot(z0 / z0.norm(), z1 / z1.norm()).clamp(-1.0, 1.0)
+    omega = torch.arccos(cos)
+    t = t[:, None]
+    if omega.abs() < 1e-6:
+        return (1.0 - t) * z0 + t * z1
+    return (torch.sin((1.0 - t) * omega) * z0 + torch.sin(t * omega) * z1) / torch.sin(omega)
+
+
+def interpolation_path(keypoints: torch.Tensor, steps_per_segment: int, closed: bool = True) -> torch.Tensor:
+    """Concatenate slerp segments through ``keypoints`` (shape ``(K, D)``); loops back if ``closed``."""
+    points = torch.cat([keypoints, keypoints[:1]]) if closed else keypoints
+    t = torch.linspace(0.0, 1.0, steps_per_segment + 1)[:-1]
+    segments = [slerp(points[i], points[i + 1], t) for i in range(len(points) - 1)]
+    if not closed:
+        segments.append(points[-1:])
+    return torch.cat(segments)
