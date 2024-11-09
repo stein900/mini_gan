@@ -127,3 +127,67 @@ def _end_of_epoch(
     return evaluator.score_generator(generator, eval_samples, seed=eval_seed)
 
 
+def fit(
+    generator: Generator,
+    discriminator: Discriminator,
+    images: torch.Tensor,
+    labels: torch.Tensor,
+    config: TrainConfig,
+    *,
+    opt_g: torch.optim.Optimizer,
+    opt_d: torch.optim.Optimizer,
+    out_dir: Path,
+    evaluator: Evaluator | None = None,
+    eval_samples: int = 10_000,
+    eval_seed: int = 1234,
+    history: History | None = None,
+    start_epoch: int = 0,
+    log_every: int = 100,
+) -> History:
+    """Train for epochs ``start_epoch+1 .. config.epochs``.
+
+    After every epoch (and once before training when ``start_epoch == 0``) it writes the
+    fixed-noise grid ``out_dir/frames/epoch_XXX.png``, scores the generator if an evaluator is
+    given, and saves ``out_dir/checkpoint.pt`` and ``out_dir/history.json``.
+    """
+    history = history or History()
+    out_dir.mkdir(parents=True, exist_ok=True)
+    if start_epoch == 0:
+        history.epochs.append({"epoch": 0, **_end_of_epoch(0, generator, out_dir, evaluator, eval_samples, eval_seed)})
+
+    for epoch in range(start_epoch + 1, config.epochs + 1):
+        generator.train()
+        discriminator.train()
+        shuffle = torch.Generator().manual_seed(config.seed * 1000 + epoch)
+        epoch_stats: dict[str, list[float]] = {k: [] for k in STEP_KEYS}
+        t0 = time.perf_counter()
+        for step, (x, y) in enumerate(iterate_minibatches(images, labels, config.batch_size, generator=shuffle), 1):
+            stats = train_step(generator, discriminator, opt_g, opt_d, x, y, config.label_smoothing)
+            for key, value in stats.items():
+                epoch_stats[key].append(value)
+                history.steps[key].append(value)
+            if log_every and step % log_every == 0:
+                print(
+                    f"epoch {epoch:3d} step {step:4d} | L_D {stats['loss_d']:.3f}  L_G {stats['loss_g']:.3f} "
+                    f"| D(x) {stats['d_real']:.3f}  D(G(z)) {stats['d_fake']:.3f}"
+                )
+        train_time = time.perf_counter() - t0
+
+        summary: dict[str, float] = {"epoch": epoch, "train_time_s": round(train_time, 2)}
+        summary.update({k: sum(v) / len(v) for k, v in epoch_stats.items()})
+        summary.update(_end_of_epoch(epoch, generator, out_dir, evaluator, eval_samples, eval_seed))
+        history.epochs.append(summary)
+        metrics = "".join(f"  {k} {summary[k]:.3f}" for k in ("mnist_fid", "mnist_is", "label_accuracy") if k in summary)
+        print(f"== epoch {epoch}/{config.epochs} ({train_time:.1f}s){metrics}")
+
+        save_training_state(
+            out_dir / "checkpoint.pt",
+            generator=generator,
+            discriminator=discriminator,
+            opt_g=opt_g,
+            opt_d=opt_d,
+            epoch=epoch,
+            extra={"train_config": asdict(config)},
+        )
+        (out_dir / "history.json").write_text(json.dumps(history.to_dict()), encoding="utf-8")
+    return history
