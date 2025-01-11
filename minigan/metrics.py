@@ -98,3 +98,19 @@ class Evaluator:
         return self.score_images(images, labels)
 
 
+@torch.no_grad()
+def nearest_neighbours(
+    queries: torch.Tensor, bank: torch.Tensor, k: int = 1, chunk: int = 1000
+) -> tuple[torch.Tensor, torch.Tensor]:
+    """Exact k-NN in pixel space (Euclidean distance on flattened images).
+
+    Returns ``(distances, indices)`` of shape ``(len(queries), k)``, computed on ``bank``'s device.
+    """
+    bank_flat = bank.flatten(1)
+    dists, idxs = [], []
+    for start in range(0, queries.shape[0], chunk):
+        q = queries[start : start + chunk].to(bank.device).flatten(1)
+        d, i = torch.cdist(q, bank_flat).topk(k, dim=1, largest=False)
+        dists.append(d.cpu())
+        idxs.append(i.cpu())
+    return torch.cat(dists), torch.cat(idxs)
