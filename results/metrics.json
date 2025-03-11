@@ -349,6 +349,456 @@
           "mnist_is": 8.3366
         }
       ]
+    },
+    "cgan": {
+      "mnist_is": 9.6999,
+      "mnist_is_std": 0.03,
+      "mnist_fid": 0.1448,
+      "label_accuracy": 0.9914,
+      "mnist_fid_resampled": {
+        "sampling_seeds": [
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "values": [
+          0.1448,
+          0.1406,
+          0.1542,
+          0.1468,
+          0.1258
+        ],
+        "mean": 0.1424,
+        "std": 0.0106
+      },
+      "class_frequencies": [
+        0.1009,
+        0.0999,
+        0.1003,
+        0.1001,
+        0.1,
+        0.099,
+        0.0998,
+        0.0984,
+        0.0999,
+        0.1017
+      ],
+      "nn_l2_median": 9.2358,
+      "nn_l2_min": 2.0789,
+      "share_closer_than_test_p1": 0.002,
+      "weights_file": "weights/cgan_generator.pt",
+      "weights_size_bytes": 1372257,
+      "training": {
+        "run": "cgan",
+        "train_config": {
+          "epochs": 50,
+          "batch_size": 128,
+          "lr": 0.0002,
+          "beta1": 0.5,
+          "beta2": 0.999,
+          "label_smoothing": 0.1,
+          "seed": 0
+        },
+        "device": "NVIDIA GeForce RTX 5070 Ti",
+        "total_time_s": 204.1,
+        "train_time_s": 194.9
+      },
+      "per_epoch": [
+        {
+          "epoch": 0,
+          "mnist_fid": 487.5454,
+          "mnist_is": 1.0,
+          "label_accuracy": 0.1
+        },
+        {
+          "epoch": 1,
+          "mnist_fid": 11.477,
+          "mnist_is": 5.152,
+          "label_accuracy": 0.6075
+        },
+        {
+          "epoch": 2,
+          "mnist_fid": 5.1603,
+          "mnist_is": 7.0795,
+          "label_accuracy": 0.8082
+        },
+        {
+          "epoch": 3,
+          "mnist_fid": 1.206,
+          "mnist_is": 8.91,
+          "label_accuracy": 0.954
+        },
+        {
+          "epoch": 4,
+          "mnist_fid": 0.9434,
+          "mnist_is": 9.082,
+          "label_accuracy": 0.9633
+        },
+        {
+          "epoch": 5,
+          "mnist_fid": 0.6919,
+          "mnist_is": 9.2163,
+          "label_accuracy": 0.9681
+        },
+        {
+          "epoch": 6,
+          "mnist_fid": 0.5485,
+          "mnist_is": 9.3889,
+          "label_accuracy": 0.979
+        },
+        {
+          "epoch": 7,
+          "mnist_fid": 0.3525,
+          "mnist_is": 9.4782,
+          "label_accuracy": 0.9822
+        },
+        {
+          "epoch": 8,
+          "mnist_fid": 0.3031,
+          "mnist_is": 9.5463,
+          "label_accuracy": 0.9852
+        },
+        {
+          "epoch": 9,
+          "mnist_fid": 0.3315,
+          "mnist_is": 9.5561,
+          "label_accuracy": 0.9866
+        },
+        {
+          "epoch": 10,
+          "mnist_fid": 0.2542,
+          "mnist_is": 9.6132,
+          "label_accuracy": 0.9891
+        },
+        {
+          "epoch": 11,
+          "mnist_fid": 0.348,
+          "mnist_is": 9.6412,
+          "label_accuracy": 0.9906
+        },
+        {
+          "epoch": 12,
+          "mnist_fid": 0.2006,
+          "mnist_is": 9.6806,
+          "label_accuracy": 0.992
+        },
+        {
+          "epoch": 13,
+          "mnist_fid": 0.261,
+          "mnist_is": 9.616,
+          "label_accuracy": 0.9879
+        },
+        {
+          "epoch": 14,
+          "mnist_fid": 0.2178,
+          "mnist_is": 9.7082,
+          "label_accuracy": 0.9921
+        },
+        {
+          "epoch": 15,
+          "mnist_fid": 0.2302,
+          "mnist_is": 9.662,
+          "label_accuracy": 0.993
+        },
+        {
+          "epoch": 16,
+          "mnist_fid": 0.1845,
+          "mnist_is": 9.6664,
+          "label_accuracy": 0.9912
+        },
+        {
+          "epoch": 17,
+          "mnist_fid": 0.2218,
+          "mnist_is": 9.6789,
+          "label_accuracy": 0.9914
+        },
+        {
+          "epoch": 18,
+          "mnist_fid": 0.197,
+          "mnist_is": 9.7258,
+          "label_accuracy": 0.9936
+        },
+        {
+          "epoch": 19,
+          "mnist_fid": 0.2654,
+          "mnist_is": 9.6417,
+          "label_accuracy": 0.9908
+        },
+        {
+          "epoch": 20,
+          "mnist_fid": 0.1915,
+          "mnist_is": 9.7291,
+          "label_accuracy": 0.9925
+        },
+        {
+          "epoch": 21,
+          "mnist_fid": 0.2144,
+          "mnist_is": 9.7433,
+          "label_accuracy": 0.9923
+        },
+        {
+          "epoch": 22,
+          "mnist_fid": 0.1454,
+          "mnist_is": 9.7175,
+          "label_accuracy": 0.9934
+        },
+        {
+          "epoch": 23,
+          "mnist_fid": 0.1586,
+          "mnist_is": 9.6798,
+          "label_accuracy": 0.9929
+        },
+        {
+          "epoch": 24,
+          "mnist_fid": 0.1552,
+          "mnist_is": 9.6828,
+          "label_accuracy": 0.9921
+        },
+        {
+          "epoch": 25,
+          "mnist_fid": 0.169,
+          "mnist_is": 9.7058,
+          "label_accuracy": 0.9911
+        },
+        {
+          "epoch": 26,
+          "mnist_fid": 0.1567,
+          "mnist_is": 9.7026,
+          "label_accuracy": 0.9915
+        },
+        {
+          "epoch": 27,
+          "mnist_fid": 0.1433,
+          "mnist_is": 9.7068,
+          "label_accuracy": 0.9908
+        },
+        {
+          "epoch": 28,
+          "mnist_fid": 0.1356,
+          "mnist_is": 9.6841,
+          "label_accuracy": 0.9915
+        },
+        {
+          "epoch": 29,
+          "mnist_fid": 0.1146,
+          "mnist_is": 9.704,
+          "label_accuracy": 0.9915
+        },
+        {
+          "epoch": 30,
+          "mnist_fid": 0.1386,
+          "mnist_is": 9.712,
+          "label_accuracy": 0.9906
+        },
+        {
+          "epoch": 31,
+          "mnist_fid": 0.1273,
+          "mnist_is": 9.699,
+          "label_accuracy": 0.9911
+        },
+        {
+          "epoch": 32,
+          "mnist_fid": 0.1399,
+          "mnist_is": 9.6792,
+          "label_accuracy": 0.9904
+        },
+        {
+          "epoch": 33,
+          "mnist_fid": 0.1119,
+          "mnist_is": 9.7008,
+          "label_accuracy": 0.9894
+        },
+        {
+          "epoch": 34,
+          "mnist_fid": 0.1226,
+          "mnist_is": 9.7487,
+          "label_accuracy": 0.9928
+        },
+        {
+          "epoch": 35,
+          "mnist_fid": 0.1329,
+          "mnist_is": 9.6877,
+          "label_accuracy": 0.9907
+        },
+        {
+          "epoch": 36,
+          "mnist_fid": 0.1481,
+          "mnist_is": 9.6496,
+          "label_accuracy": 0.9896
+        },
+        {
+          "epoch": 37,
+          "mnist_fid": 0.1029,
+          "mnist_is": 9.7354,
+          "label_accuracy": 0.9917
+        },
+        {
+          "epoch": 38,
+          "mnist_fid": 0.1386,
+          "mnist_is": 9.7128,
+          "label_accuracy": 0.9914
+        },
+        {
+          "epoch": 39,
+          "mnist_fid": 0.1544,
+          "mnist_is": 9.7021,
+          "label_accuracy": 0.9901
+        },
+        {
+          "epoch": 40,
+          "mnist_fid": 0.1392,
+          "mnist_is": 9.7317,
+          "label_accuracy": 0.9923
+        },
+        {
+          "epoch": 41,
+          "mnist_fid": 0.1313,
+          "mnist_is": 9.7074,
+          "label_accuracy": 0.992
+        },
+        {
+          "epoch": 42,
+          "mnist_fid": 0.1297,
+          "mnist_is": 9.699,
+          "label_accuracy": 0.9925
+        },
+        {
+          "epoch": 43,
+          "mnist_fid": 0.1085,
+          "mnist_is": 9.7449,
+          "label_accuracy": 0.9923
+        },
+        {
+          "epoch": 44,
+          "mnist_fid": 0.0914,
+          "mnist_is": 9.7438,
+          "label_accuracy": 0.9929
+        },
+        {
+          "epoch": 45,
+          "mnist_fid": 0.1232,
+          "mnist_is": 9.7039,
+          "label_accuracy": 0.9906
+        },
+        {
+          "epoch": 46,
+          "mnist_fid": 0.088,
+          "mnist_is": 9.708,
+          "label_accuracy": 0.9925
+        },
+        {
+          "epoch": 47,
+          "mnist_fid": 0.1195,
+          "mnist_is": 9.7421,
+          "label_accuracy": 0.9922
+        },
+        {
+          "epoch": 48,
+          "mnist_fid": 0.1089,
+          "mnist_is": 9.6946,
+          "label_accuracy": 0.9923
+        },
+        {
+          "epoch": 49,
+          "mnist_fid": 0.1047,
+          "mnist_is": 9.7409,
+          "label_accuracy": 0.9927
+        },
+        {
+          "epoch": 50,
+          "mnist_fid": 0.137,
+          "mnist_is": 9.6967,
+          "label_accuracy": 0.9911
+        }
+      ]
+    }
+  },
+  "seed_study": {
+    "DCGAN": {
+      "runs": [
+        "dcgan",
+        "dcgan_seed1",
+        "dcgan_seed2"
+      ],
+      "mnist_fid": {
+        "values": [
+          0.5145,
+          0.5006,
+          0.5502
+        ],
+        "mean": 0.5218,
+        "std": 0.0256
+      },
+      "mnist_is": {
+        "values": [
+          8.3448,
+          8.2552,
+          8.2516
+        ],
+        "mean": 8.2839,
+        "std": 0.0528
+      }
+    },
+    "DCGAN (no smoothing)": {
+      "runs": [
+        "dcgan_nols",
+        "dcgan_nols_seed1",
+        "dcgan_nols_seed2"
+      ],
+      "mnist_fid": {
+        "values": [
+          0.5217,
+          0.566,
+          0.5139
+        ],
+        "mean": 0.5338,
+        "std": 0.0281
+      },
+      "mnist_is": {
+        "values": [
+          8.2885,
+          8.1973,
+          8.2875
+        ],
+        "mean": 8.2578,
+        "std": 0.0524
+      }
+    },
+    "cGAN": {
+      "runs": [
+        "cgan",
+        "cgan_seed1",
+        "cgan_seed2"
+      ],
+      "mnist_fid": {
+        "values": [
+          0.1448,
+          0.1266,
+          0.0934
+        ],
+        "mean": 0.1216,
+        "std": 0.0261
+      },
+      "mnist_is": {
+        "values": [
+          9.7,
+          9.7194,
+          9.7356
+        ],
+        "mean": 9.7183,
+        "std": 0.0178
+      },
+      "label_accuracy": {
+        "values": [
+          0.9915,
+          0.9929,
+          0.9938
+        ],
+        "mean": 0.9927,
+        "std": 0.0012
+      }
     }
   }
 }
