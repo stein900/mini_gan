@@ -1,14 +1,11 @@
 # Mini-GAN
 
-DCGAN on MNIST, 28x28, latent size 100. Weights use the DCGAN normal
-initialisation. Training is Adam with the DCGAN learning rate and betas.
+DCGAN and a class-conditional GAN on MNIST. Samples are scored with a small
+MNIST classifier: Frechet distance and an inception score in that feature
+space, plus a nearest-neighbour check against the training set.
 
-```bash
-python -m pip install -r requirements.txt
-python train.py
-```
-
-Samples for a fixed latent batch are written each epoch.
+The reference DCGAN (seed 0, 50 epochs) is in `weights/dcgan_generator.pt`.
+The conditional model is in `weights/cgan_generator.pt`.
 
 ## License
 
