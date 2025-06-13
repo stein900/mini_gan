@@ -3,4 +3,4 @@
 from minigan.models import Discriminator, Generator, ModelConfig
 
 __all__ = ["Discriminator", "Generator", "ModelConfig"]
-__version__ = "0.2.0"
+__version__ = "1.0.0"
